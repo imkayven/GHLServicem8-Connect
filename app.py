@@ -178,5 +178,14 @@ def send_to_ghl():
     })
 
 
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({
+    "message": {
+        "status": "ok",
+        "developer": "kayven",
+        "email": "yvendee2020@gmail.com"
+    }})
+    
 if __name__ == "__main__":
     app.run(debug=True)

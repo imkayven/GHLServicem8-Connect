@@ -28,11 +28,11 @@ def create_job():
     print("Received data:", data)
 
     # Safely extract and default all fields to empty string if missing or empty
-    firstname = data.get("firstname", "") or ""
-    lastname = data.get("lastname", "") or ""
+    firstname = data.get("first_name", "") or ""
+    lastname = data.get("last_name", "") or ""
     email = data.get("email", "") or ""
-    job_address = data.get("job_address", "") or ""
-    job_description = data.get("job_description", "") or ""
+    job_address = data.get("Job Address", "") or ""
+    job_description = data.get("Job Description", "") or ""
     phone = data.get("phone", "") or ""
     schedule_date_and_time = data.get("schedule_date_and_time", "") or ""
 
@@ -178,6 +178,22 @@ def send_to_ghl():
     })
 
 
+@app.route('/test', methods=['POST'])
+def log_post_request():
+    # Get the JSON data from the request
+    data = request.get_json()
+    
+    # # Print the data to the console (log)
+    # print(data)
+    
+    # ###You can also log it to a file if you prefer
+    # with open('log.txt', 'a') as f:
+    #     f.write(str(data) + '\n')
+    
+    # Return a response
+    # return 'Received and logged the POST request successfully!', 200
+    return jsonify(data), 200
+
 @app.route('/', methods=['GET'])
 def index():
     return jsonify({
@@ -186,6 +202,6 @@ def index():
         "developer": "kayven",
         "email": "yvendee2020@gmail.com"
     }})
-    
+
 if __name__ == "__main__":
     app.run(debug=True)

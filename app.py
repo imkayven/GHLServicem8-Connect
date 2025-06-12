@@ -2,11 +2,12 @@ from flask import Flask, request, jsonify
 import requests
 import time
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
 # === Constants ===
-API_KEY = "smk-476018-2f8da57889167ce7-5eb2dcc5dd2ba9ff"
+API_KEY = os.getenv("SERVICEM8_API_KEY")
 STAFF_UUID = "f885d6a8-52e8-4292-862e-22dff508506b"    
 CATEGORY_UUID = "2aa7d1dd-a75a-4c2c-aa25-22b6c288851b" ## Standard
 JOB_STATUS = "Quote"
@@ -128,7 +129,7 @@ def create_job():
     else:
         staff_full_name = "Unknown"
 
-    
+
     # === Final Response ===
     print("=== Job and contact creation successful ===")
     return jsonify({

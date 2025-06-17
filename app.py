@@ -194,12 +194,20 @@ def log_post_request():
     # return 'Received and logged the POST request successfully!', 200
     return jsonify(data), 200
 
+# to subsribe
+# @app.route('/servicem8-webhook', methods=['POST'])
+# def handle_webhook():
+#     mode = request.form.get('mode')
+#     challenge = request.form.get('challenge')
+#     if mode == 'subscribe' and challenge:
+#         return challenge, 200
+#     return '', 200
+
+# after subscribe
 @app.route('/servicem8-webhook', methods=['POST'])
 def handle_webhook():
-    mode = request.form.get('mode')
-    challenge = request.form.get('challenge')
-    if mode == 'subscribe' and challenge:
-        return challenge, 200
+    data = request.get_json()
+    print("Received webhook data:", data)
     return '', 200
     
 @app.route('/', methods=['GET'])

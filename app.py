@@ -203,11 +203,39 @@ def log_post_request():
 #         return challenge, 200
 #     return '', 200
 
-# after subscribe
+# # after subscribe
+# @app.route('/servicem8-webhook', methods=['POST'])
+# def handle_webhook():
+#     data = request.get_json()
+#     print("Received webhook data:", data)
+#     return '', 200
+
+
+# Webhook verification and event handling
 @app.route('/servicem8-webhook', methods=['POST'])
 def handle_webhook():
+    # Verification step
+    mode = request.form.get('mode')
+    challenge = request.form.get('challenge')
+    if mode == 'subscribe' and challenge:
+        return challenge, 200
+
+    # Handle incoming webhook data
     data = request.get_json()
     print("Received webhook data:", data)
+
+    # Check if the event is a new job creation
+    if data.get('object') == 'job' and 'entry' in data:
+        for entry in data['entry']:
+            if 'uuid' in entry:
+                job_uuid = entry['uuid']
+                # Fetch full job details using the resource_url
+                resource_url = data.get('resource_url')
+                if resource_url:
+                    job_data = requests.get(resource_url).json()
+                    print("Full job data:", job_data)
+                else:
+                    print("No resource_url provided in the webhook data.")
     return '', 200
     
 @app.route('/', methods=['GET'])
